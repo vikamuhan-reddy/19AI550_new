@@ -1,8 +1,8 @@
-# Ex.No: 3  Implementation of Kinematic movement -seek behavior in Unity
+# Ex.No: 5  Implementation of Kinematic movement -seek behavior in Unity
 ### DATE:                                                                            
 ### REGISTER NUMBER : 
 ### AIM: 
-To write a program to simulate the process of seek behavior in Unity 
+To write a program to simulate the process of seek behavior in Unity without NavigationMeshAgent. 
 ### Algorithm:
 1. Create a New Unity Project by Open the  Unity Hub and create a new 3D Project,Name the project (e.g., SeekBehaviorDemo).
 2. Create the Moving Object
