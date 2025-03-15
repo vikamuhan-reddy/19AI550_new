@@ -1,4 +1,4 @@
-# Ex.No: 5  Implementation of Steering behaviour-Pursue and Evade in Unity
+# Ex.No: 6  Implementation of Steering behaviour-Pursue and Evade in Unity
 ### DATE:                                                                            
 ### REGISTER NUMBER : 
 ### AIM: 
@@ -145,4 +145,4 @@ public class Script : MonoBehaviour
 
 
 ### Result:
-Thus the simple seek behavior was implemented successfully.
+Thus the simple pursue and evade behavior was implemented successfully.
