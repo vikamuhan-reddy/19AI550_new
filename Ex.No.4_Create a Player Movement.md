@@ -29,15 +29,14 @@ public class Player_movement : MonoBehaviour
     public float speed;
     void Start()
     {
-        float xdir = Input.GetAxis("horizontal") * speed;
-        float zdir = Input.GetAxis("vertical") * speed;
-        transform.position=new Vector3(xdir,zdir);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       float xdir = Input.GetAxis("Horizontal") * speed;
+      float zdir = Input.GetAxis("Vertical") * speed;
+      transform.position+=new Vector3(xdir, zdir); 
     }
 }
 
