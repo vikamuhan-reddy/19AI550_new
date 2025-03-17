@@ -53,7 +53,7 @@ public class Player_movement : MonoBehaviour
     }
 }
 **Evader script**
-public class flee_behavior : MonoBehaviour
+public class Evader : MonoBehaviour
 {
     // Start is called before the first frame update
     public NavMeshAgent agent;
@@ -106,34 +106,6 @@ public class Pursuer: MonoBehaviour
 12. Run the game 
 13. Stop the program
     
-### Program:
-```
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Script : MonoBehaviour
-{
-    // Start is called before the first frame update
-    public Transform target;  // The object to seek
-    public float speed = 5f;  // Movement speed
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (target == null) return;  // Exit if no target is assigned
-
-        // Calculate the desired direction
-        Vector3 direction = (target.position - transform.position).normalized;
-
-        // Move the object towards the target
-        transform.position += direction * speed * Time.deltaTime;
-    }
-}
 ```
 ### Output:
 
