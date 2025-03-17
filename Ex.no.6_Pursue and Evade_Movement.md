@@ -12,7 +12,6 @@ To write a program to simulate the process of Pursue and Evade behavior in Unity
   Right-click → 3D Object → Plane (this will be the ground).
   Set its Scale to (10, 1, 10) for a larger surface.
   Create three Capsule for the Player, Pursuer, and Evader:
-  Right-click → 3D Object → Cube.
   Rename them to "Player", "Pursuer", and "Evader".
   Set their Y Position to 0.5 (so they sit on the ground).
   Change their Material for better distinction (optional).
@@ -23,7 +22,7 @@ To write a program to simulate the process of Pursue and Evade behavior in Unity
    or
    Add navMeshSurface to plane and bake 
 4. Add NavMeshAgent Component
-    Select Player, Pursuer, and Evader.
+    Select Pursuer, and Evader.
     Click Add Component → Search for NavMeshAgent and add it.
     Adjust NavMeshAgent Settings:
     Player: Set Speed = 5.
