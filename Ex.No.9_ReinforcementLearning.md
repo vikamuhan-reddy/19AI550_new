@@ -1,4 +1,4 @@
-# Ex.No: 8  Implementation of Simple Reinforcement Learning 
+# Ex.No: 9  Implementation of Simple Reinforcement Learning 
 ### DATE:                                                                            
 ### REGISTER NUMBER : 
 ### AIM: 
