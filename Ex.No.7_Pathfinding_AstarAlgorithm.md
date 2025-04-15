@@ -1,4 +1,4 @@
-# Ex.No: 9  Implementation of Path finding using A* algorithm
+# Ex.No: 7  Implementation of Path finding using A* algorithm
 ### DATE:                                                                            
 ### REGISTER NUMBER : 
 ### AIM: 
