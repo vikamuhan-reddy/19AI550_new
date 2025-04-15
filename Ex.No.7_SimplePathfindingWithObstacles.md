@@ -89,4 +89,4 @@ transform.position = startPos + new Vector3(movement, 0, 0);
 
 
 ### Result:
-Thus the simple seek behavior was implemented successfully.
+Thus the simple path finding  behavior was implemented using AI navigation successfully.
