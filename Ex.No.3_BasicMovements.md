@@ -33,20 +33,25 @@ public class TransformOperations : MonoBehaviour
         // Translate (Move) object1 along the X-axis- Time.deltaTime to make movement smooth across all frame rates
         if (object1 != null)
         {
-            object1.position += Vector3.right * moveSpeed * Time.deltaTime;
+           // object1.position += Vector3.right * moveSpeed;
+               object1.Translate(0.02f,0,0);
+
         }
 
         // Rotate object2 around the Y-axis
         if (object2 != null)
         {
-            object2.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+            //object2.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+            //object2.Rotate(0,0.02f.0);
         }
 
         // Scale object3 up and down
         if (object3 != null)
         {
-            float scaleChange = Mathf.PingPong(Time.time * scaleSpeed, 1f) + 0.5f; // generates a value that moves back and forth between 0 and length
-            object3.localScale = new Vector3(scaleChange, scaleChange, scaleChange);
+           // float scaleChange = Mathf.PingPong(Time.time * scaleSpeed, 1f) + 0.5f; // generates a value that moves back and forth between 0 and length
+           // object3.localScale = new Vector3(scaleChange, scaleChange, scaleChange);
+            object3.localScale+=new Vector3(0.02f.0.02f,0);
+
         }
     }
 }
