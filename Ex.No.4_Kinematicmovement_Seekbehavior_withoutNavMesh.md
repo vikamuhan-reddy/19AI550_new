@@ -1,8 +1,8 @@
-# Ex.No: 4  Implementation of Kinematic movement -seek behavior in Unity
+# Ex.No: 4  Implementation of Kinematic movement -seek and Flee behavior in Unity
 ### DATE:                                                                            
 ### REGISTER NUMBER : 
 ### AIM: 
-To write a program to simulate the process of seek behavior in Unity without NavigationMeshAgent. 
+To write a program to simulate the process of seek and Flee behavior in Unity without NavigationMeshAgent. 
 ### Algorithm:
 1. Create a New Unity Project by Open the  Unity Hub and create a new 3D Project,Name the project (e.g., SeekBehaviorDemo).
 2. Create the Moving Object
@@ -19,8 +19,9 @@ To write a program to simulate the process of seek behavior in Unity without Nav
 6. Attach the Script
    Select Seeker in the Hierarchy - Drag & Drop the SeekBehavior script onto the Inspector Panel.
    Drag & Drop the Target from the Hierarchy into the "Target" field in the script component.
-12. Run the game 
-13. Stop the program
+12.  Write a script for flee behavior and attach it to target
+13.  Run the game
+14. Stop the program
     
 ### Program:
 ```
@@ -28,7 +29,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Script : MonoBehaviour
+public class seekScript : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform target;  // The object to seek
@@ -45,6 +46,34 @@ public class Script : MonoBehaviour
 
         // Calculate the desired direction
         Vector3 direction = (target.position - transform.position).normalized;
+
+        // Move the object towards the target
+        transform.position += direction * speed * Time.deltaTime;
+    }
+}
+```
+```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class fleeScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    public Transform target;  // The object to seek
+    public float speed = 5f;  // Movement speed
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (target == null) return;  // Exit if no target is assigned
+
+        // Calculate the desired direction
+        Vector3 direction = (transform.position-target.position).normalized;
 
         // Move the object towards the target
         transform.position += direction * speed * Time.deltaTime;
