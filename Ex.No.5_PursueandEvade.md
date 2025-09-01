@@ -21,7 +21,7 @@ To write a program to simulate the process of Pursue and Evade behavior in Unity
    Go to the Bake tab and click Bake.
    or
    Add navMeshSurface to plane and bake 
-4. Add NavMeshAgent Component
+4. Add NavMeshAgent Component 
     Select Pursuer, and Evader.
     Click Add Component → Search for NavMeshAgent and add it.
     Adjust NavMeshAgent Settings:
@@ -40,8 +40,8 @@ public class Player_movement : MonoBehaviour
     public float speed;
     void Start()
     {
-        float xdir = Input.GetAxis("horizontal") * speed;
-        float zdir = Input.GetAxis("vertical") * speed;
+        float xdir = Input.GetAxis("Horizontal") * speed;
+        float zdir = Input.GetAxis("Vertical") * speed;
         transform.position=new Vector3(xdir,zdir);
     }
 
@@ -92,7 +92,7 @@ public class Pursuer: MonoBehaviour
     {
        Vector3 targetvelocity=target.position-transform.position;
        Vector3 futurepos = transform.position + targetvelocity.normalized*speed;
-       agent.SetDestination(target.position);
+       agent.SetDestination(futurepos);
     } 
     // Update is called once per frame
     void Update()
