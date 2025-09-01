@@ -80,7 +80,7 @@ public class Evader : MonoBehaviour
 public class Pursuer: MonoBehaviour
 {
     // Start is called before the first frame update
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     public Transform target;
     public float speed;
     void Start()
