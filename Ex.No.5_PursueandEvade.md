@@ -108,7 +108,8 @@ public class Pursuer: MonoBehaviour
 ```
 ### Output:
 
-![purse-evade](https://github.com/user-attachments/assets/bc4c91ba-b1cd-4989-b6db-4989f44fbca6)
+<img width="484" height="474" alt="Screenshot 2025-09-03 093105" src="https://github.com/user-attachments/assets/8031ff82-f93d-4dd2-9854-6ecae5c3a719" />
+
 
 
 
