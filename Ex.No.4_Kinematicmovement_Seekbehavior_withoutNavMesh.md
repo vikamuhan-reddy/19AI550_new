@@ -53,6 +53,7 @@ public class Script : MonoBehaviour
 ```
 ### Output:
 
+<img width="156" height="76" alt="Screenshot 2025-09-03 092457" src="https://github.com/user-attachments/assets/d019bbfa-6646-4935-b283-19389f63debd" />
 
 
 
