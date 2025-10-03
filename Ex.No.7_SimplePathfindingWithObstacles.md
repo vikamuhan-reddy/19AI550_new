@@ -75,9 +75,13 @@ void Start()
     }
 }
 ```
-For smooth movement(optional)  -> use  
+
+```For smooth movement(optional)  -> use  
 float movement = Mathf.PingPong(Time.time * moveSpeed, moveDistance) - moveDistance / 2;
 transform.position = startPos + new Vector3(movement, 0, 0);
+```
+
+
 ### Output:
 
 
