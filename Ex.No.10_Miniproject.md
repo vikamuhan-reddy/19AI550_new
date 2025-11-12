@@ -5,126 +5,209 @@
 ---
 
 ## AIM:
-To develop a **2D chase-and-escape game** in Unity using an **AI-based enemy** that intelligently follows the player.
+To develop a **flappy bird* in Unity using an **AI-based enemy** that intelligently follows the player.
 
 ---
 
 ## ALGORITHM:
-1. Start Unity and create a new 2D project named **“ChaseEscapeAI”**.  
-2. Design the game scene by adding **Player** and **Enemy** sprites.  
-3. Assign **Collider2D** and **Rigidbody2D** components to both Player and Enemy.  
-4. Attach a **PlayerMovement** script to control movement using **WASD/Arrow keys**.  
-5. Attach an **EnemyAI** script to make the enemy chase the player using simple AI logic.  
-6. Implement **collision detection** in the Player script to trigger *Game Over* when the enemy touches the player.  
-7. Test the game by running and adjusting object positions and speeds.  
-8. Verify that the AI successfully chases the player and that collision detection ends the game.
+1. Start Unity and create a new 2D project named **“FlappyBirdAI”**.
+2. Design the game scene by adding **Bird** (player sprite), **Pipes**, **Ground**, and **AI Enemy Bird** (red bird sprite).
+3. Assign **BoxCollider2D** and **Rigidbody2D** components to Bird, AI Enemy Bird, Pipes, and Ground.
+4. Attach a **BirdScript** to control flapping using **Space key**.
+5. Attach a **PipeSpawnScript** to spawn moving pipes at random heights.
+6. Attach a **PipeMoveScript** to make pipes scroll left and destroy when off-screen.
+7. Attach a **PipeMiddleScript** to detect when the bird passes a pipe and increase score.
+8. Attach an **EnemyBirdScript** to make the AI enemy bird intelligently follow and predict the player’s vertical position.
+9. Implement **collision detection** in BirdScript and EnemyBirdScript to trigger *Game Over* when hitting pipes, ground, or enemy.
+10. Create a **LogicScript** with UI to display score and show *Game Over* screen.
+11. Test the game by running and adjusting flap strength, pipe speed, and AI prediction distance.
+12. Verify that pipes spawn correctly, score increases, AI enemy dynamically chases the player’s height, and collision ends the game.
 
 ---
 
 ## PROGRAM:
 
-### **PlayerMovement.cs**
+### **BirdScript.cs**
 ```csharp
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-public class PlayerMovement : MonoBehaviour
+public class BirdScript : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    private Rigidbody2D rb;
-    private Vector2 movement;
-
+    public Rigidbody2D myRigidbody;
+    public float flapStrength;
+    public LogicScript logic;
+    public bool birdIsAlive = true;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+
     }
 
+    // Update is called once per frame
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-    }
-
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if(Input.GetKeyDown(KeyCode.Space) && birdIsAlive)
         {
-            Debug.Log("Game Over!");
-            Time.timeScale = 0;
-        }
-    }
-}
-```
-
-### **EnemyAI.cs** ###
-```csharp
-
-using UnityEngine;
-
-public class EnemyAI : MonoBehaviour
-{
-    public Transform player;
-    public float speed = 3f;
-    public float chaseRange = 6f;
-    public float patrolSpeed = 2f;
-    private Vector2 patrolTarget;
-
-    private enum State { Patrol, Chase }
-    private State currentState = State.Patrol;
-
-    void Start()
-    {
-        ChooseNewPatrolPoint();
-    }
-
-    void Update()
-    {
-        float distance = Vector2.Distance(transform.position, player.position);
-
-        switch (currentState)
-        {
-            case State.Patrol:
-                Patrol();
-                if (distance < chaseRange)
-                    currentState = State.Chase;
-                break;
-
-            case State.Chase:
-                Chase();
-                if (distance > chaseRange * 1.5f)
-                    currentState = State.Patrol;
-                break;
+            myRigidbody.linearVelocity = Vector2.up * flapStrength;
         }
     }
 
-    void Patrol()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        transform.position = Vector2.MoveTowards(transform.position, patrolTarget, patrolSpeed * Time.deltaTime);
-        if (Vector2.Distance(transform.position, patrolTarget) < 0.2f)
-            ChooseNewPatrolPoint();
-    }
-
-    void Chase()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
-    }
-
-    void ChooseNewPatrolPoint()
-    {
-        patrolTarget = new Vector2(Random.Range(-8f, 8f), Random.Range(-4f, 4f));
+        logic.gameOver();
+        birdIsAlive = false;
     }
 }
 
 ```
 
+### **PipeSpawnScript.cs**
+```csharp
+
+using UnityEngine;
+
+public class PipeSpawnScript : MonoBehaviour
+{
+    public GameObject pipe;
+    public float spawnRate = 2;
+    public float timer = 0;
+    public float heightOffset = 10;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        spawnPipe();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(timer < spawnRate)
+        {
+            timer = timer + Time.deltaTime;
+        }
+        else
+        {
+
+            spawnPipe();            
+            timer = 0;
+        }
+    }
+
+    void spawnPipe()
+    {
+        float lowestPoint = transform.position.y - heightOffset;
+        float highestPoint = transform.position.y + heightOffset;
+        Instantiate(pipe,new Vector3(transform.position.x, Random.Range( lowestPoint, highestPoint), 0), transform.rotation);
+    }
+}
+
+
+```
+
+### **LogicScript.cs**
+
+```csharp
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class LogicScript : MonoBehaviour
+{
+    public int playerScore;
+    public Text scoreText;
+    public GameObject gameOverScreen;
+
+    [ContextMenu("Increase Score")]
+    public void addScore(int scoreToAdd)
+    {
+        playerScore = playerScore + scoreToAdd;
+        scoreText.text = playerScore.ToString();
+    }
+
+    public void restartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void gameOver()
+    {
+        gameOverScreen.SetActive(true);
+    }
+}
+
+```
+
+### **PipeMiddleScript.cs**
+
+```csharp
+using UnityEngine;
+
+public class PipeMiddleScript : MonoBehaviour
+{
+    public LogicScript logic;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 3)
+        {
+            logic.addScore(1);
+        }
+    }
+}
+
+```
+
+### **PipeMoveScript.cs**
+```csharp
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class PipeMoveScript : MonoBehaviour
+{
+    public float moveSpeed = 5;
+    public float deadZone = -45;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position = transform.position + (Vector3.left * moveSpeed) * Time.deltaTime;
+
+        if(transform.position.x < deadZone)
+        {
+            Debug.Log("Pipe Deleted");
+            Destroy(gameObject);
+        }
+    }
+}
+
+```
 ## OUTPUT:
-<img width="400" height="250" alt="Screen Shot 1947-08-02 at 12 21 39" src="https://github.com/user-attachments/assets/6213fc90-740d-43c5-96eb-b200feccbc0a" />
-<img width="400" height="250" alt="Screen Shot 1947-08-02 at 12 22 16" src="https://github.com/user-attachments/assets/d2093518-929f-4ae6-bb42-d1a16c1b7080" />
+<img width="890" height="495" alt="Screenshot 2025-11-03 192447" src="https://github.com/user-attachments/assets/e8ece551-638c-4a55-bc94-bfe48c63f67b" />
+<img width="845" height="480" alt="Screenshot 2025-11-03 192456" src="https://github.com/user-attachments/assets/cd928fe5-55ef-4473-b42d-aa0f53631849" />
+
 
 ## RESULT:
-Thus, the 2D Chase Escape game was successfully developed using Unity and adopted AI-based path-following and finite state machine (FSM) technology to simulate intelligent enemy behavior.
+Thus, flappy bird game is done successfully.
 
